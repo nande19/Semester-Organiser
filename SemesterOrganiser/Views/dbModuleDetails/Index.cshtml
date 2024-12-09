@@ -1,0 +1,126 @@
+﻿@model IEnumerable<SemesterOrganiser.dbModuleDetail>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfCredits)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfWeeks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassHoursPerWeek)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModuleHours)
+        </th>
+        <th>
+            Self-Study Hours per Week
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfCredits)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfWeeks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassHoursPerWeek)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModuleHours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SelfStudyHoursPerWeek)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ModuleDetailID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ModuleDetailID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ModuleDetailID })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div style="width: 80%; margin: auto;">
+    <canvas id="myChart"></canvas>
+</div>
+
+@section scripts {
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        // Extract data from the table
+        var credits = @Html.Raw(Json.Encode(Model.Select(m => m.NumberOfCredits)));
+        var weeks = @Html.Raw(Json.Encode(Model.Select(m => m.NumberOfWeeks)));
+        var classHours = @Html.Raw(Json.Encode(Model.Select(m => m.ClassHoursPerWeek)));
+        var moduleHours = @Html.Raw(Json.Encode(Model.Select(m => m.ModuleHours)));
+        var selfStudyHours = @Html.Raw(Json.Encode(Model.Select(m => m.SelfStudyHoursPerWeek)));
+
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: credits.map((_, index) => 'Module ' + (index + 1)),
+                datasets: [
+                    {
+                        label: 'Number of Credits',
+                        data: credits,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Number of Weeks',
+                        data: weeks,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Class Hours per Week',
+                        data: classHours,
+                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                        borderColor: 'rgba(255, 206, 86, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Module Hours',
+                        data: moduleHours,
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Self-Study Hours per Week',
+                        data: selfStudyHours,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}

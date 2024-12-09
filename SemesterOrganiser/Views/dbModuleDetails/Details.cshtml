@@ -1,0 +1,52 @@
+﻿@model SemesterOrganiser.dbModuleDetail
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>dbModuleDetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfCredits)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfCredits)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfWeeks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfWeeks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassHoursPerWeek)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassHoursPerWeek)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModuleHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModuleHours)
+        </dd>
+
+    </dl>
+
+
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ModuleDetailID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
